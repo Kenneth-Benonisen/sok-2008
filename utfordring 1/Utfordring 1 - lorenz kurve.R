@@ -37,16 +37,6 @@ df_2005 <- df %>%
 
 ### Lager lorenz kurver ###
 
-df %>%
-  filter(tid %in% c(2005, 2020)) %>%
-  ggplot(aes(x = value, colour = tid)) +
-  stat_lorenz(desc = T) +
-  coord_fixed() +
-  geom_abline(linetype = "dashed") +
-  theme_minimal() +
-  labs(x = "value",
-       y = "placeholder tekst")
-
 
 df %>%
   filter(tid == 2005) %>%
@@ -55,8 +45,9 @@ df %>%
   coord_fixed() +
   geom_abline(linetype = "dashed") +
   theme_minimal() +
-  labs(x = "value",
-       y = "placeholder tekst") +
+  labs(x = "Kumulativ prosent av inntekt før skatt",
+       y = "Kumulativ prosent av innbyggerne for Troms",
+       title = "Ulikhet iblandt innbyggerne i Troms (2005)") +
   annotate_ineq(df_2005$value)
 
 
@@ -67,8 +58,9 @@ df %>%
   coord_fixed() +
   geom_abline(linetype = "dashed") +
   theme_minimal() +
-  labs(x = "value",
-       y = "placeholder tekst") +
+  labs(x = "Kumulativ prosent av inntekt før skatt",
+       y = "Kumulativ prosent av innbyggerne for Troms",
+       title = "Ulikhet iblandt innbyggerne i Troms (2020)") +
   annotate_ineq(df_2020$value)
 
 
@@ -83,8 +75,7 @@ df %>%
   hrbrthemes::scale_x_percent() +
   hrbrthemes::scale_y_percent() +
   hrbrthemes::theme_ipsum_rc() +
-  labs(x = "Cumulative Percentage of Billionaires",
-       y = "Cumulative Percentage of Total Net Worth",
-       title = "Real Estate is a Relatively Equal Field",
-       caption = "Source: https://www.bloomberg.com/billionaires/ (accessed February 8, 2018)")
+  labs(x = "Kumulativ prosent av inntekt før skatt",
+       y = "Kumulativ prosent av innbyggerne for Troms",
+       title = "Ulikhet iblandt innbyggerne i Troms")
 
