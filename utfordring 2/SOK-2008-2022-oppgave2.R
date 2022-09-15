@@ -18,9 +18,7 @@ union$country <- gsub("United Kingdom", "UK", union$country)
 names(union)[names(union) == "country"] <- "region"
 
 # Oppretter ny variabler for "Excess coverage". 
-union$excess_coverage <-union$density + union$coverage #A sum
-union$diff <-union$excess_coverage - union$unempl #A difference
-union$mean_excess_unempl <-(union$excess_coverage + union$diff)/2 # A mean value
+union$excess_coverage <- union$coverage - union$density
 
 # Henter inn kart data for hele verden. 
 mapdata <- map_data("world")
@@ -42,11 +40,13 @@ df <- df %>%
     coord == "5. Binding national norms" ~ 5,
   ))
 
+
 # Plotter arbeidsledighet.
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=unempl), color = "black") +
-  scale_fill_gradient2(name = "Arbeidsledighet, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "% Arbeidsledighet", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  labs(title = "Arbeidsledighet i Europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -61,7 +61,8 @@ df %>%
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=density), color = "black") +
-  scale_fill_gradient2(name = "Fagforeningstetthet, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Fagforening tetthet", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  labs(title = "Tetthet av fagforeninger i europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -76,7 +77,8 @@ df %>%
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=density), color = "black") +
-  scale_fill_gradient2(name = "Excess coverage, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Excess coverage", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  labs(title = "Excess coverage i europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -91,7 +93,8 @@ df %>%
 df %>%
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=coord_level), color = "black") +
-  scale_fill_gradient2(name = "Kordinering av lønn, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Nivå av kordinering", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  labs(title = "Lønnskordinering i europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -100,9 +103,3 @@ df %>%
     axis.title.y = element_blank(),
     rect = element_blank()
   )
-
-
-
-
-
-
