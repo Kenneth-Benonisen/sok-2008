@@ -2,13 +2,16 @@
 
 library(readr)
 library(ggplot2) 
-library(tidyverse) 
+library(tidyverse)
+library(RCurl)
 
 # Kode for a kunne bruke norske bokstaver
 Sys.setlocale(locale="no_NO")
 
 # This loads the data with information about the variables of interest
-union <- read_csv("C:/Users/Kenne/Downloads/union_unempl.csv")
+url <- getURL("https://raw.githubusercontent.com/Kenneth-Benonisen/sok-2008/main/utfordring%202/union_unempl.csv")
+union <- read.csv(text = url)
+
 
 # Changing the name of a single observation. 
 # The below code changes all observations called "United Kingdom" to "UK" in the union data. 
