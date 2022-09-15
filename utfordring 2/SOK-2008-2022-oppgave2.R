@@ -1,5 +1,4 @@
-# You will need the following libraries for the assignment:
-
+# Nødvendige pakker. 
 library(readr)
 library(ggplot2) 
 library(tidyverse)
@@ -8,38 +7,32 @@ library(RCurl)
 # Kode for a kunne bruke norske bokstaver
 Sys.setlocale(locale="no_NO")
 
-# This loads the data with information about the variables of interest
+# Samler inn dataen vi skal utforske. 
 url <- getURL("https://raw.githubusercontent.com/Kenneth-Benonisen/sok-2008/main/utfordring%202/union_unempl.csv")
 union <- read.csv(text = url)
 
-
-# Changing the name of a single observation. 
-# The below code changes all observations called "United Kingdom" to "UK" in the union data. 
+# Endrer navnet på observasjon tilknyttett England. 
 union$country <- gsub("United Kingdom", "UK", union$country)
 
-# Renaming a variable. The below code renames the variable "Country" to "Region".
+# Bytter navn på en variabel slik at det blir mulig å sammensveise dataset senere
 names(union)[names(union) == "country"] <- "region"
 
-
-# Creating a new variable. To create a map showing "Excess coverage",
-# you need to create a new variable. 
+# Oppretter ny variabler for "Excess coverage". 
 union$excess_coverage <-union$density + union$coverage #A sum
-
 union$diff <-union$excess_coverage - union$unempl #A difference
-
 union$mean_excess_unempl <-(union$excess_coverage + union$diff)/2 # A mean value
 
-# collecting mapdata for the entire world.
+# Henter inn kart data for hele verden. 
 mapdata <- map_data("world")
 
-# merging the two datasets together by region.
+# Sammensveiser union og kart datasettet basert på region. 
 df <- left_join(mapdata, union, by= "region")
 
-# removing unwanted region by filtering out rows where we dont have any data. 
+# Fjerner unødvendige regioner hvor vi ikke har noen data. 
 df <- df %>% 
   filter(!is.na(df$mean_unempl2015_2019))
 
-# Mutating new column named coord level so we are able to plot the different coordinating used by different regions.  
+# Mutate ny kolonne hvor vi kan sortere lønnskordinasjon på ulike numeriske nivå slik at det er mulig å plotte. 
 df <- df %>% 
   mutate(coord_level = case_when(
     coord == "1. Fragmented wage bargaining" ~ 1,
@@ -49,12 +42,11 @@ df <- df %>%
     coord == "5. Binding national norms" ~ 5,
   ))
 
-
-# plotting unemployment 
+# Plotter arbeidsledighet.
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=unempl), color = "black") +
-  scale_fill_gradient2(name = "Arbeidsledighet, 2019", low = "green", mid = "yellow", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Arbeidsledighet, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -65,11 +57,11 @@ df %>%
     )
 
 
-# plotting Union density
+# Plotter Fagforeningstetthet.
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=density), color = "black") +
-  scale_fill_gradient2(name = "Fagforeningstetthet, 2019", low = "green", mid = "yellow", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Fagforeningstetthet, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -80,11 +72,11 @@ df %>%
   )
 
 
-# plotting excess coverage ??
+# Plotter "excess coverage".
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=density), color = "black") +
-  scale_fill_gradient2(name = "Excess coverage, 2019", low = "green", mid = "yellow", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Excess coverage, 2019", low = "green", mid = "white", high = "red", na.value = "grey50") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
@@ -95,7 +87,7 @@ df %>%
   )
 
 
-# plotting cordinating of payment rates. 
+# Plotter Kordinasjon av lønnsfastsettelse. 
 df %>%
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=coord_level), color = "black") +
