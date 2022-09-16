@@ -76,7 +76,7 @@ df %>%
 # Plotter "excess coverage".
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
-  geom_polygon(aes(fill=density), color = "black") +
+  geom_polygon(aes(fill=excess_coverage), color = "black") +
   scale_fill_gradient2(name = "Excess coverage", low = "green", mid = "white", high = "red", na.value = "grey50") +
   labs(title = "Excess coverage i europa \n 2019") +
   theme(
@@ -93,7 +93,13 @@ df %>%
 df %>%
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=coord_level), color = "black") +
-  scale_fill_gradient2(name = "Nivå av kordinering", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Nivå av kordinering",
+                       low = "green", mid = "white", high = "red", na.value = "grey50", 
+                       label = c("Fragmented wage bargaining",
+                                 "Some coordination",
+                                 "Procedural negotiation guidelines",
+                                 "Non-binding national norms",
+                                 "Binding national norms")) +
   labs(title = "Lønnskordinering i europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
