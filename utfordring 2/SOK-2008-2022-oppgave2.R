@@ -89,7 +89,7 @@ df %>%
   )
 
 
-# Plotter Kordinasjon av lønnsfastsettelse. 
+# Plotter Kordinasjon av lønnsfastsettelse. x
 df %>%
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=coord_level), color = "black") +
