@@ -61,7 +61,7 @@ df %>%
 df %>% 
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=density), color = "black") +
-  scale_fill_gradient2(name = "Fagforening tetthet", low = "green", mid = "white", high = "red", na.value = "grey50") +
+  scale_fill_gradient2(name = "Tetthet av fagforening", low = "green", mid = "white", high = "red", na.value = "grey50") +
   labs(title = "Tetthet av fagforeninger i europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
@@ -89,18 +89,18 @@ df %>%
   )
 
 
-# Plotter Kordinasjon av lønnsfastsettelse. x
+# Plotter Kordinasjon av lønnsfastsettelse.
 df %>%
   ggplot(aes(x=long, y=lat, group = group)) +
   geom_polygon(aes(fill=coord_level), color = "black") +
-  scale_fill_gradient2(name = "Nivå av kordinering",
+  scale_fill_gradient2(name = "Nivå av koordinering",
                        low = "green", mid = "white", high = "red", na.value = "grey50", 
                        label = c("Fragmented wage bargaining",
                                  "Some coordination",
                                  "Procedural negotiation guidelines",
                                  "Non-binding national norms",
                                  "Binding national norms")) +
-  labs(title = "Lønnskordinering i europa \n 2019") +
+  labs(title = "Lønnskoordinering i europa \n 2019") +
   theme(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
