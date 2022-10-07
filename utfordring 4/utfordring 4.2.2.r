@@ -27,14 +27,16 @@ women %>%
   ggplot(aes(x=tot_full_rate,y=fem_emp_rate_0_2))+
   geom_point()+
   ylim(0, 100)+
-  labs(x ="Uker med 100% støtte", y = "Yrkesdeltakelse blant mødre hvis yngste barn er 0-2 år")+
+  labs(x ="Uker med 100% støtte", y = "Yrkesdeltakelse blant mødre hvis yngste barn er 0-2 år") +
+  theme_classic() +
   geom_smooth(method=lm, se=FALSE) -> kids_0_2
 
 women %>%
   ggplot(aes(x=tot_full_rate,y=fem_emp_rate_6_14))+
   geom_point()+
   ylim(0, 100)+
-  labs(x ="Uker med 100% støtte", y = "Yrkesdeltakelse blant mødre hvis yngste barn er 6-14 år")+
+  labs(x ="Uker med 100% støtte", y = "Yrkesdeltakelse blant mødre hvis yngste barn er 6-14 år") +
+  theme_classic() +
   geom_smooth(method=lm, se=FALSE) -> kids_6_14
 
 # Illustrere plottene i et grid system. 
