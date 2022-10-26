@@ -1,3 +1,5 @@
+
+# Benyttet pakker.
 library(rjstat)
 library(httr)
 library(PxWebApiData)
@@ -5,15 +7,13 @@ library(tidyverse)
 library(ggrepel)
 library(janitor)
 
-
 # Kode for a kunne bruke norske bokstaver.
 Sys.setlocale(locale="no_NO")
-
 
 # Henter data fra SSB via JSON, må hente url til datasette som vi oppsøker.
 url <- "https://data.ssb.no/api/v0/no/table/13215/"
 
-# legger inne query for hva vi er ute etter. ######
+# Legger inn query, for oppsøkt data. ######
 data <- '
 {
   "query": [
@@ -107,14 +107,13 @@ data <- '
 '
 #####
 
-
-# henter selve dataen fra SSB.
+# Henter selve dataen fra SSB.
 d.tmp <- POST(url, body = data, encode = "json", verbose())
 
 # Henter ut innholdet fra d.tmp som tekst deretter bearbeides av fromJSONstat.
 df <- fromJSONstat(content(d.tmp, "text"))
 
-# korrigerer kolonnene slik at det er enklere å benytte. 
+# Korrigerer kolonnene slik at det er enklere å benytte. 
 df <- df %>% 
   clean_names()
 
@@ -166,7 +165,7 @@ df %>%
   theme(legend.position="none") +
   coord_cartesian(xlim = c(0,35000)) # zoomer kun i plottet og kutter ikke ut noen av verdiene.
 
-# filtrerer bort "alle næringer" fra df.
+# Filtrerer bort "alle næringer" fra df.
 df %>%
   mutate("Innvandring" = value) %>%
   filter(Næringer != "Alle næringer") %>% 
