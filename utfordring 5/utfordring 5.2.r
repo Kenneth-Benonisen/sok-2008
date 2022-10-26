@@ -6,7 +6,7 @@ library(ggrepel)
 library(janitor)
 
 
-# Kode for a kunne bruke norske bokstaver
+# Kode for a kunne bruke norske bokstaver.
 Sys.setlocale(locale="no_NO")
 
 
@@ -108,15 +108,15 @@ data <- '
 #####
 
 
-# henter selve dataen fra SSB 
+# henter selve dataen fra SSB.
 d.tmp <- POST(url, body = data, encode = "json", verbose())
 
-# Henter ut innholdet fra d.tmp som tekst deretter bearbeides av fromJSONstat
+# Henter ut innholdet fra d.tmp som tekst deretter bearbeides av fromJSONstat.
 df <- fromJSONstat(content(d.tmp, "text"))
 
+# korrigerer kolonnene slik at det er enklere å benytte. 
 df <- df %>% 
   clean_names()
-
 
 # Oppretter ny kolonne, hvor vi rydder i navnene som plotter y-aksen i grafen.
 df <- df %>% 
@@ -145,9 +145,7 @@ df <- df %>%
     naering_sn2007 == "90-99 ... Personlig tjenesteyting" ~ "Personlig tjenesteyting"
   ))
 
-
-
-# Plotter alt
+# Plotter alt.
 df %>%
   mutate("Innvandring" = value) %>% 
   ggplot(aes(Innvandring, Næringer, fill = landbakgrunn)) +
@@ -167,10 +165,6 @@ df %>%
   facet_wrap(~landbakgrunn) +
   theme(legend.position="none") +
   coord_cartesian(xlim = c(0,35000)) # zoomer kun i plottet og kutter ikke ut noen av verdiene.
-
-
-
-
 
 # filtrerer bort "alle næringer" fra df.
 df %>%
