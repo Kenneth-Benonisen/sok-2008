@@ -85,32 +85,6 @@ d.tmp <- POST(url, body = data, encode = "json", verbose())
 # Henter ut innholdet fra d.tmp som tekst deretter bearbeides av fromJSONstat
 df <- fromJSONstat(content(d.tmp, "text"))
 
-# df_label <- df %>%
-#   group_by(landbakgrunn) %>%
-#   filter(kjønn == "Kvinner") %>%
-#   top_n(1, år)
-# 
-# 
-# df %>%
-#   filter(kjønn == "Kvinner") %>%
-#   ggplot(aes(år, value, group = landbakgrunn, col = landbakgrunn)) +
-#   geom_line(aes(group = landbakgrunn),size = 1) +
-#   #geom_point(size = 2.5) +
-#   labs(title = "Kvinnfolk innvandring",
-#        x = "",
-#        y = "antall innvandrere") +
-#   scale_y_continuous(labels = scales::comma, breaks = seq(0,180000, 20000)) +
-#   theme_classic() +
-#   geom_text_repel(aes(label = landbakgrunn),
-#                   data = df_label,
-#                   nudge_x = 1.5,
-#                   nudge_y = 1,
-#                   na.rm = T) +
-#   theme(legend.position="none")
-
-
-
-
 # summerer value fra begge kjønn til ett, og filtrer bort det ene kjønne for å unngå dublikering av labels. 
 df <- df %>%
   group_by(landbakgrunn, år) %>% 
@@ -127,8 +101,7 @@ df %>%
   ggplot(aes(år, total_innvandring, group = landbakgrunn, col = landbakgrunn)) +
   geom_line(aes(group = landbakgrunn),size = 1) +
   #geom_point(size = 2.5) +
-  labs(title = "Total innvandring til Norge",
-       x = "",
+  labs(x = "",
        y = "Antall innvandrere") +
   scale_y_continuous(labels = scales::comma, breaks = seq(0,300000, 20000)) +
   theme_classic() +
