@@ -188,7 +188,49 @@ df_combined <- left_join(df_syk, df_arb_ledig, by=c("kjonn", "ar")) %>%
 
 
 
-# Oppretter plotter. 
+
+# Oppretter df til farger.
+farger <- c("Arbeidsledig" = "red", "Sykefravær" = "blue")
+
+# Plott for hvert kjønn. 
+# Kvinner
+df_combined %>% 
+  filter(kjonn == "Kvinner") %>% 
+  ggplot(aes(x = ar, group=kjonn)) + 
+  geom_line(aes(y= value_syk, color = "Sykefravær")) + 
+  geom_line(aes(y= value_arb_ledig, color = "Arbeidsledig"))+
+  scale_y_continuous(name = "Sykefraværprosent", 
+                     sec.axis = sec_axis(~ . * 1, name = "Arbeidsledighet"))+
+  scale_color_manual(values = farger)+
+  labs(title="Kvinner",
+       color="Status",
+       x = "")+
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
+# Menn
+df_combined %>% 
+  filter(kjonn == "Menn") %>% 
+  ggplot(aes(x = ar, group=kjonn)) + 
+  geom_line(aes(y= value_syk, color = "Sykefravær")) + 
+  geom_line(aes(y= value_arb_ledig, color = "Arbeidsledig"))+
+  scale_y_continuous(name = "Sykefraværprosent", 
+                     sec.axis = sec_axis(~ . * 1, name = "Arbeidsledighet"))+
+  scale_color_manual(values = farger)+
+  labs(title="Menn",
+       color="Status",
+       x = "")+
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+
+
+
+
+
+
+# Alternativ måte å plotte. 
 
 fravaer_kvinner_syk <- df_combined %>%
   filter(kjonn == "Kvinner") %>% 
@@ -280,29 +322,6 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 # Plotter selve plottene i lag. 
 multiplot(fravaer_kvinner_syk, fravaer_kvinner_arb, fravaer_menn_syk, fravaer_menn_arb, cols=1)
-
-
-
-
-
-
-# testing
-
-df_combined %>%
-  filter(kjonn == "Kvinner") %>%
-  rename(sykefravær = value_syk) %>% 
-  ggplot(aes(x = ar, sykefravær, fill = sykefravær)) +
-  geom_col() +
-  theme_classic() +
-  labs(
-    title = "kvinner",
-    x="") +
-  scale_y_continuous(labels = scales::label_percent(scale = 1)) +
-  scale_fill_gradient(low="grey", high="red") +
-  theme(legend.position = "none")
-
-
-
 
 
 
